@@ -5,4 +5,4 @@ import "fmt"
 func main() {
 	fmt.Println("Hello, 世界")
 }
-// JAAAS
+// Joakim Høiland Schjølberg

@@ -1,0 +1,36 @@
+﻿Oppgavesett 1
+
+
+3.1
+Windows har .exe, MacOS har .app, i Linux så kan alt være en kjørbar fil men hvordan de gjør det på varier.
+De forskjellige operativsystemene gir instrukser til hardware på forskjellig måte, og trenger derfor forskjellige objektfiler. (Bruker forskjellige APIer for å styre HW)
+
+
+
+
+
+
+
+
+
+
+3.2
+Hvilke forskjeller ser du i forhold til programmeringsspråket Java?
+
+
+package main
+
+
+import (
+        "fmt"
+        "math/rand"
+)
+
+
+func main() {
+        fmt.Println("My favorite number is", rand.Intn(10))
+}
+
+
+Java kjører alle programmer i en virtuell java maskin, slik at alle operativsystem kan kjøre de samme filene (.jar). Go kompilerer kjørbare objekter for individuelle operativsystemer.
+Forskjellene i go ift. Java er at “package name” blir brukt på samme måte som man ville brukt “import.java.util” i java.

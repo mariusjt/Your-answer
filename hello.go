@@ -7,5 +7,6 @@ func main() {
 	fmt.Println("Joakim Høiland Schjølberg is in da house")
 	fmt.Println("Jorgen Lefdal says hallo from his mansion")
 	fmt.Println("Jostein Rygg doesn't study")
+	fmt.Println("Jostein Våga Rygg")
 }
 

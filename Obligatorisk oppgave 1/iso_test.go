@@ -1,23 +1,21 @@
-package ascii
+package iso
 
 import (
 	"testing"
-	"fmt"
 )
 
-func isASCII(s string) bool {
-	for _, c := range s {
-		if c > 127 {
-			return false
-		}
+func TestGretingsExtendedASCII(t *testing.T) {
+	ascii := GreetingExtendedASCII()
+	if !(IsASCII(ascii)) {
+		t.Fail()
 	}
-	return true
 }
 
-func TestGreetingASCII(t *testing.T) {
-	if isASCII(GreetingASCII()) == true {
-		fmt.Println("Success: Inneholder bare ASCII chars")
-		}else{
-			t.Error("Feil: Inneholder extended chars(non ascii) ")
+func IsASCII(s string) bool {
+	for _, C := range s {
+		if C > 127 && C < 256 {
+			return true
 		}
 	}
+	return false
+}

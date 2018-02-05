@@ -1,21 +1,19 @@
 package iso
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestGretingsExtendedASCII(t *testing.T) {
-	ascii := GreetingExtendedASCII()
-	if !(IsASCII(ascii)) {
+func TestGreetingExtendedASCII(t *testing.T) {
+	greetingEX := GreetingExtendedASCII()
+	if isEASCII(greetingEX) == false {
 		t.Fail()
 	}
 }
 
-func IsASCII(s string) bool {
-	for _, C := range s {
-		if C > 127 && C < 256 {
-			return true
+func isEASCII(q2 string) bool {
+	for _, i := range q2 {
+		if i < 0x80 || i > 0xff {
+			return false
 		}
 	}
-	return false
+	return true
 }

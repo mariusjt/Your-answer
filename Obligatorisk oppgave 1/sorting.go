@@ -1,22 +1,24 @@
 package algorithms
 
 // Les https://en.wikipedia.org/wiki/Bubble_sort
-func Bubble_sort_modified(list []int) {
-
-	// Skriv din kode her
 	
-func Bubble(list []int) {
-	swap := true
-	for swap {
-		swap = false
-		for i := 0; i < len(list) -1; i++{
-			if list[i + 1] < list[i]{
-				DoSwap(list, i, i + 1)
-				swap = true
+func Bubble_sort_modified(list []int) {
+	// Skriv din kode her
+	n := len(list)
+	swapped := true
+	for swapped {
+		swapped = false
+		for index := 1; index < n-1; index++ {
+			if list[index-1] > list[index] {
+				temp := list[index-1]
+				list[index-1] = list[index]
+				list[index] = temp
+				swapped = true
 			}
 		}
 	}
 }
+
 // External swap function for re-use
 func DoSwap(list []int, i1 ,i2 int){
 	tmp := list[i1];

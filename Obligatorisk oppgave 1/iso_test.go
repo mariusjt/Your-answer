@@ -1,19 +1,16 @@
-package iso
+package ascii
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
-func TestGreetingExtendedASCII(t *testing.T) {
-	greetingEX := GreetingExtendedASCII()
-	if isEASCII(greetingEX) == false {
-		t.Fail()
+func TestExtendedASCII(t *testing.T) {
+
+	s := []byte("ÆØÅ")
+	testString := ExtendedASCIIText(s)
+
+	if len(testString) < 0 {
+		t.Error("Input with no values from extended ASCII")
 	}
-}
-
-func isEASCII(q2 string) bool {
-	for _, i := range q2 {
-		if i < 0x80 || i > 0xff {
-			return false
-		}
-	}
-	return true
-}
+	fmt.Println("Input has values from extended ASCII")

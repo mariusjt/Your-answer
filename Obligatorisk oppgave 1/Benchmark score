@@ -9,3 +9,9 @@ BenchmarkBSortModified1000-8    	    2000	    621448 ns/op
 BenchmarkBSortModified10000-8   	      10	 105175007 ns/op
 PASS
 ok
+
+
+
+Big-O brukes for å beskrive kompleksiteten til en algoritme innenfor en tidsramme. 
+Big-O grafen viser for eksempel hvis en algoritme bruker 10 sekunder på å løse 100 elementer, 
+hvor lang tid det vil da ta å løse 200 elementer.

@@ -1,3 +1,11 @@
+Joakim Høiland Schjølberg
+
+
+
+
+
+
+
 # IS-105, Obligatorisk oppgave 2
 
 Generelt for alle oppgaver:

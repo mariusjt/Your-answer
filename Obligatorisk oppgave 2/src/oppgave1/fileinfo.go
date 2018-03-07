@@ -2,90 +2,38 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 )
 
-func main() {
 
-	getFileInfo(getArg())
+func ReadFile() {
+	data, err := ioutil.ReadFile("fileinfo.go")
+	if err != nil {
+		log.Panicf("failed reading data from file: %s", err)
+	}
+	fmt.Printf("\nLength: %d bytes", len(data))
+	i := len(data)
+	f := float64(i)
 
+	fmt.Printf("\nLength: %f kilobytes", f/1000)
+	fmt.Printf("\nLength: %f megabytes", f/1e6)
+	fmt.Printf("\nLength: %e gigabytes", f/1e9)
 }
 
-func getArg() string {
-	args := os.Args[1:]
-	var st string
-
-	for _, v := range args {
-		st += v
+func Directory() {
+	file, _ := os.Stat("fileinfo.go")
+	file.IsDir()
+	if _, err := os.Stat("fileinfo.go"); os.IsNotExist(err){
+		fmt.Printf("\nThe directory does not exist \n")
 	}
-	return st
+	if _, err := os.Stat("fileinfo.go"); err == nil {
+		fmt.Printf("\n")
+		fmt.Printf("\nThe directory exist")
+	}
 }
 
-func getFileInfo(s string) {
-	fi, err := os.Lstat(s)
-	if err != nil {
-		log.Fatal(err)
-	}
-	mode := fi.Mode()
-
-	info, err := os.Stat(s)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var bytes int64 = info.Size()
-	var kb int64 = (bytes / 1024)
-	var mg float64 = (float64)(kb / 1024)
-	var gb float64 = (mg / 1024)
-	var modePerm = mode & os.ModePerm
-	var append = mode & os.ModeAppend
-	var device = mode & os.ModeDevice
-	var charDevice = mode & os.ModeCharDevice
-	var unixBlock = mode & os.ModeDevice
-	var symLink = mode & os.ModeSymlink
-
-	fmt.Println("Information about: ", s)
-	fmt.Println("Size: ", bytes, "bytes, ", kb, "kb, ", mg, "mg, ", gb, "gb")
-	if mode.IsRegular() {
-		fmt.Println("Regular file")
-	} else {
-		fmt.Println("Not a regular file")
-	}
-	if mode.IsDir() {
-		fmt.Println("Is a directory")
-	} else {
-		fmt.Println("Is not a directory")
-	}
-	if modePerm == 0777 {
-		fmt.Println("Has UNIX permission bits")
-	} else {
-		fmt.Println("Has not UNIX permission bits")
-	}
-	if append != 0 {
-		fmt.Println("Is append only")
-	} else {
-		fmt.Println("Is not append only")
-	}
-	if device != 0 {
-		fmt.Println("Is device file")
-	} else {
-		fmt.Println("Is not a device file")
-	}
-	if charDevice != 0 {
-		fmt.Println("Is a UNIX char device")
-	} else {
-		fmt.Println("Is not a UNIX char device")
-	}
-	if unixBlock != 0 {
-		fmt.Println("Is a UNIX block device")
-	} else {
-		fmt.Println("Is not a UNIX block device")
-	}
-	if symLink != 0 {
-		fmt.Println("Is a symlink")
-	} else {
-		fmt.Println("Is not a symlink")
-	}
+func regular() {
 
 }

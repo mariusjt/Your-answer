@@ -2,38 +2,82 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 )
 
+func main (){
+	FileInfo(file())
+}
 
-func ReadFile() {
-	data, err := ioutil.ReadFile("fileinfo.go")
+
+func file ()string{
+	arg := os.Args[1:]
+	var file string
+
+	for _, v := range arg {
+		file += v
+	}
+	return file
+}
+
+func FileInfo (file string) {
+
+	fi, err := os.Lstat(file)
 	if err != nil {
-		log.Panicf("failed reading data from file: %s", err)
+		log.Fatal(err)
 	}
-	fmt.Printf("\nLength: %d bytes", len(data))
-	i := len(data)
-	f := float64(i)
-
-	fmt.Printf("\nLength: %f kilobytes", f/1000)
-	fmt.Printf("\nLength: %f megabytes", f/1e6)
-	fmt.Printf("\nLength: %e gigabytes", f/1e9)
-}
-
-func Directory() {
-	file, _ := os.Stat("fileinfo.go")
-	file.IsDir()
-	if _, err := os.Stat("fileinfo.go"); os.IsNotExist(err){
-		fmt.Printf("\nThe directory does not exist \n")
+	info, err := os.Stat(file)
+	if err != nil {
+		log.Fatal(err)
 	}
-	if _, err := os.Stat("fileinfo.go"); err == nil {
-		fmt.Printf("\n")
-		fmt.Printf("\nThe directory exist")
+	mode := fi.Mode()
+	fmt.Println ("Information about file",file,":")
+
+	var bytes int64 = info.Size()
+	var kb float64 = (float64)(bytes/1024)
+	var mb float64 = (kb/1024)
+	var gb float64 = (mb/1024)
+
+fmt.Println("Size:",bytes,"in bytes,",kb,"KB,",mb,"MB and",gb,"GB")
+
+	if mode.IsDir () {
+		fmt.Println("Is a directory")
+	} else {
+		fmt.Println("Is not a directory")
 	}
-}
 
-func regular() {
+	if mode.IsRegular () {
+		fmt.Println("Is a regular file")
+	} else {
+		fmt.Println("Is not a regular file")
+	}
 
+	var unix = mode & os.ModePerm
+	if unix == 0777 {
+	fmt.Println("Has Unix permission bits: -rwxrwxrwx")
+	} else {
+	fmt.Println("Does not have Unix permission bits: -rwxrwxrwx")
+	}
+
+	var isappend = mode & os.ModeAppend
+	if isappend != 0 {
+		fmt.Println("Is append only")
+	} else {
+		fmt.Println("Is not append only")
+	}
+
+	var device = mode & os.ModeDevice
+	if device != 0 {
+		fmt.Println("Is a device file")
+	} else {
+		fmt.Println("Is not a device file")
+	}
+
+	var symbolic = mode & os.ModeSymlink
+	if symbolic != 0 {
+		fmt.Println("Is a symbolic link")
+	} else {
+		fmt.Println("Is not a symbolic link")
+	}
 }

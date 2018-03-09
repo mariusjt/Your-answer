@@ -27,3 +27,4 @@ func addUp(tall int, tall2 int, c chan int){
 	sum := tall + tall2
 	c <- sum
 }
+

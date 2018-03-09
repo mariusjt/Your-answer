@@ -1,7 +1,9 @@
-YOUR-ANSWER
+﻿YOUR-ANSWER
 
 Joakim Høiland Schjølberg
 Marius Johnsen Tjøstheim
+Jørgen Barlund Lefdal
+Jostein Vågå Rygg
 
 
 

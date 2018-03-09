@@ -6,11 +6,13 @@ import (
 	"bufio"
 	"log"
 	"io/ioutil"
+	"strings"
 )
 
 func main() {
 	lineCounter(getFile())
 	fileReader(getFile())
+	Counter()
 }
 
 func getFile() string {
@@ -18,14 +20,16 @@ func getFile() string {
 	if len(input) <1 {
 		fmt.Println("Error: No filename entered")
 	}
-	fileName := input[1]
-	filePath := "../files/" + fileName
+
+	filename = input[1]
+	filePath := "../files/" + filename
 
 	return filePath
-
 }
 
-func lineCounter(filePath string){
+var filename string
+
+func lineCounter(filePath string) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		 errHandler()
@@ -36,28 +40,70 @@ func lineCounter(filePath string){
 		lineCount++
 	}
 
+	fmt.Printf("Information about '%s':\n", filename)
 	fmt.Println("Number of lines in file:", lineCount)
 }
-var m map[rune] int
+var Map = make(map[rune]int)
 
 func fileReader(filePath string){
-	file, err := os.Open(filePath)
+	file, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		fmt.Println("Could not open file")
-		log.Fatal(err)
+		errHandler()
 	}
-	buf := bufio.NewReader(file)
-	for true {
-		x, _, err := buf.ReadRune()
-		if err != nil {
-			break
-		}
-		m[x]++
+	fileString := string(file)
+	fileSplit := []string(strings.Split(fileString, ""))
+
+	for i := 0; i < len(fileSplit); i++ {
+		addToMap(fileSplit[i])
 	}
-
-
-
 }
+
+var regLetters [] string //registrerte bokstaver
+
+func addToMap(letter string) {
+	registered := false
+	for i := 0; i < len(regLetters); i++ {
+		if letter == regLetters[i] {
+			registered = true
+		}
+	}
+
+	stringVer := []rune(letter)
+	intVer := int(stringVer[0])
+
+	if registered == true {
+		Map[rune(intVer)]++
+	} else {
+		Map[rune(intVer)] = 1
+		regLetters = append(regLetters, letter)
+	}
+}
+
+func Counter(){
+	fmt.Println("Most common runes:")
+
+	for i := 1; i <= 5; i++ {
+		number := i
+		highest := 0
+		mostUsed := ""
+
+		for i := 0; i < len(regLetters); i++ {
+			runeVer := []rune(regLetters[i])
+			counts := Map[runeVer[0]]
+
+			if counts > highest {
+				highest = counts
+				mostUsed = regLetters[i]
+			}
+		}
+
+		topRune := []rune(mostUsed)
+		fmt.Printf("%d, Rune: '%s', Counts: %d\n", number, mostUsed, highest)
+		delete(Map, topRune[0])
+	}
+}
+
 
 func errHandler(){
 	log.Fatal()

@@ -1,38 +1,110 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
-
+	"fmt"
 	"bufio"
+	"log"
+	"io/ioutil"
+	"strings"
 )
 
-
-
 func main() {
-	content, err := ioutil.ReadFile("text.txt")
+	lineCounter(getFile())
+	fileReader(getFile())
+	Counter()
+}
+
+func getFile() string {
+	input := os.Args
+	if len(input) <1 {
+		fmt.Println("Error: No filename entered")
+	}
+
+	filename = input[1]
+	filePath := "../files/" + filename
+
+	return filePath
+}
+
+var filename string
+
+func lineCounter(filePath string) {
+	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatal(err)
+		 errHandler()
+	}
+	fileScanner := bufio.NewScanner(file)
+	lineCount := 0
+	for fileScanner.Scan() {
+		lineCount++
 	}
 
-	fmt.Printf("File contents: %s", content)
+	fmt.Printf("Information about '%s':\n", filename)
+	fmt.Println("Number of lines in file:", lineCount)
+}
+var Map = make(map[rune]int)
 
-	file, err := os.Open("../files/text.txt") // For read access.
-	buf := bufio.NewReader(file)
+func fileReader(filePath string){
+	file, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Could not open file")
+		errHandler()
+	}
+	fileString := string(file)
+	fileSplit := []string(strings.Split(fileString, ""))
 
-	var m map[rune]int
+	for i := 0; i < len(fileSplit); i++ {
+		addToMap(fileSplit[i])
+	}
+}
 
-	for true {
-		x, _, err := buf.ReadRune()
-		if err != nil {
-			break
+var regLetters [] string //registrerte bokstaver
+
+func addToMap(letter string) {
+	registered := false
+	for i := 0; i < len(regLetters); i++ {
+		if letter == regLetters[i] {
+			registered = true
 		}
-		m[x]++;
 	}
 
-	for key, value := range m {
-		fmt.Println("Key:", key, "Value:", value)
+	stringVer := []rune(letter)
+	intVer := int(stringVer[0])
+
+	if registered == true {
+		Map[rune(intVer)]++
+	} else {
+		Map[rune(intVer)] = 1
+		regLetters = append(regLetters, letter)
 	}
+}
+
+func Counter(){
+	fmt.Println("Most common runes:")
+
+	for i := 1; i <= 5; i++ {
+		number := i
+		highest := 0
+		mostUsed := ""
+
+		for i := 0; i < len(regLetters); i++ {
+			runeVer := []rune(regLetters[i])
+			counts := Map[runeVer[0]]
+
+			if counts > highest {
+				highest = counts
+				mostUsed = regLetters[i]
+			}
+		}
+
+		topRune := []rune(mostUsed)
+		fmt.Printf("%d, Rune: '%s', Counts: %d\n", number, mostUsed, highest)
+		delete(Map, topRune[0])
+	}
+}
+
+
+func errHandler(){
+	log.Fatal()
 }

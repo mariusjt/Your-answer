@@ -19,7 +19,7 @@ func main() {
 
 	fmt.Printf("File contents: %s", content)
 
-	file, err := os.Open("text.txt") // For read access.
+	file, err := os.Open("../files/text.txt") // For read access.
 	buf := bufio.NewReader(file)
 
 	var m map[rune]int

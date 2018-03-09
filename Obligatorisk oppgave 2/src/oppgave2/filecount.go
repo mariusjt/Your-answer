@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+)
 
 func main() {
-	fmt.Println("Programmet skal lese en tekst-fil, skrive ut totalt antall linjer og antall for fem runes som forekommer hyppigst i filen")
+		content, err := ioutil.ReadFile("text.txt")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("File contents: %s", content)
 }

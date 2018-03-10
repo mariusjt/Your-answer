@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
+	"io"
 	"log"
 )
 
@@ -10,19 +11,39 @@ func main() {
 	ReadFile()
 
 }
-
 func ReadFile() {
-	data, err := ioutil.ReadFile("nummer.txt")
+
+	file, err := os.Open("nummer.txt")
+
 	if err != nil {
-		log.Panicf("failed reading data from file: %s", err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
-	fmt.Printf("\nLength: %d bytes", len(data))
-	fmt.Printf("\nData: %s", data)
-	fmt.Printf("\nError: %v", err)
+
+	var perline int
+	var nums []int
+
+	for {
+
+		_, err := fmt.Fscanf(file, "%d\n", &perline) // give a patter to scan
+
+		if err != nil {
+
+			if err == io.EOF {
+				break // stop reading the file
+			}
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		nums = append(nums, perline)
+
+		file.WriteString(string(sum))
+
+			defer file.Close() // lukker filen.
+
+			if err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+		}
+	}
 }
-
-func addup(tall int, tall2 int) {
-	sum := tall + tall2
-
-}
-

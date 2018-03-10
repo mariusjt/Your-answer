@@ -23,11 +23,13 @@ func main() {
 
 		file, err := os.Create("nummer.txt") //
 		if err != nil {
-			log.Fatalf("failed creating file: %s", err)
+			log.Fatalf("feil skrive fil: %er", err)
 		}
-		defer file.Close() // Make sure to close the file when you're done
 
-		len, err := file.WriteString(tall,tall2)
+		file.WriteString(string(tall))
+		file.WriteString(string(tall2))
+
+		defer file.Close() // lukker filen.
 
 		if err != nil {
 			log.Fatalf("failed writing to file: %s", err)
